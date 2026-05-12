@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<title>Rotación</title>
+
+<style>
+body{
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:#222;
+}
+
+canvas{
+  width:800px;
+  height:800px;
+  background:#43c463;
+}
+</style>
+</head>
+<body>
+
+<canvas id="c" width="1600" height="1600"></canvas>
+
+<script>
+const c = document.getElementById("c");
+const x = c.getContext("2d");
+
+ /* sería el float angulo*/
+let angulo = 0;
+
+function rayado(cx,cy,w,h,rot,a=.32){
+
+  x.save();
+
+  /* sería el traslate (300,300), mover el origen del centro*/
+  x.translate(cx,cy);
+
+  /* equivalente al angulo */
+  x.rotate(rot);
+
+  x.beginPath();
+  x.rect(-w/2,-h/2,w,h);
+  x.clip();
+
+  for(let i=-w;i<w;i+=16){
+    x.fillStyle=`rgba(0,0,0,${a})`;
+    x.fillRect(i,-h,7,h*2);
+  }
+
+  x.restore();
+}
+
+function draw(){
+
+  /* fondo */
+  x.fillStyle="#43c463";
+  x.fillRect(0,0,1600,1600);
+
+  /* aumentar el angulo */
+  angulo += 0.01;
+
+  /* dibujar cuadrado rotando */
+  rayado(800,800,900,900,angulo,.65);
+
+  requestAnimationFrame(draw);
+}
+
+draw();
+</script>
+
+</body>
+</html>
